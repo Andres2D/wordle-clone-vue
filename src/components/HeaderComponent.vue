@@ -33,7 +33,7 @@
   top: 0;
   background: transparent;
   color: white;
-  right: 59px;
+  right: 6px;
   transform: rotate(28deg);
 }
 </style>

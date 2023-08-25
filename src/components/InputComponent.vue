@@ -15,8 +15,8 @@ defineProps({
   align-items: center;
   border: 2px solid gray;
   text-align: center;
-  width: 65px;
-  min-height: 65px;
+  width: 45px;
+  min-height: 45px;
   font-size: 25px;
 }
 </style>

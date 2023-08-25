@@ -22,7 +22,7 @@ import { addWord } from './composables/useState';
 <style lang="scss">
 .container {
   margin: 20px auto;
-  max-width: 400px;
+  max-width: 280px;
   width: 100%;
 }
 </style>

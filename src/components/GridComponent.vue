@@ -26,7 +26,7 @@ import { gridWords } from '../composables/useState';
   .row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
   }
 }
 </style>
