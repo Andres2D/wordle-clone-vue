@@ -22,7 +22,7 @@
     }
 
     .green {
-      color: #2ECC71;
+      color: #44BD32;
     }
   }
 }
