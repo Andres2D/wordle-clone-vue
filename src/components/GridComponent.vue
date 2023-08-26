@@ -22,6 +22,8 @@ import { gridWords } from '../composables/useState';
   margin-top: 20px;
   display: flex;
   flex-direction: column;
+  max-width: 280px;
+  margin: 0 auto;
 
   .row {
     display: flex;
