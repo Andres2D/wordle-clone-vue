@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { addWord } from '../composables/useState';
 defineProps({
   keyLetter: {
     type: String
@@ -8,10 +9,16 @@ defineProps({
 <template>
   <div 
     class="key special-key" 
-    v-if="keyLetter === 'ENTER' || keyLetter === 'DELETE'">
+    v-if="keyLetter === 'ENTER' || keyLetter === 'DELETE'"
+    @click="addWord(keyLetter)">
     {{ keyLetter }}
   </div>
-  <div v-else class="key">{{ keyLetter }}</div>
+  <div 
+    v-else 
+    class="key" 
+    @click="addWord(keyLetter)">
+      {{ keyLetter }}
+  </div>
 </template>
 <style>
 .key {
@@ -23,6 +30,7 @@ defineProps({
   margin: 2px;
   text-align: center;
   width: 12px;
+  cursor: pointer;
 }
 
 .special-key {
