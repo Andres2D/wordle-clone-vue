@@ -10,13 +10,16 @@ export const alertInfo = reactive({
 const wordsList = ['WEIRD', 'BLACK', 'WHITE', 'WRITE'];
 
 export const addWord = (word: string) => {
-  
   const row = wordsCompleted.value.findIndex((completed: string) => !completed);
   if(word === 'ENTER') {
+
+    if(gridWords.value[row].length < 5) {
+      displayTemporalAlert('No enough words.');
+      return;
+    }
+
     if(!wordsList.includes(gridWords.value[row])) {
-      console.log('update');
-      alertInfo.show = true,
-      alertInfo.message = 'No in words list.'
+      displayTemporalAlert('No in words list.')
       return;
     }
     
@@ -34,4 +37,14 @@ export const addWord = (word: string) => {
   } else {
     gridWords.value[row] += word; 
   }
+};
+
+const displayTemporalAlert = (message: string) => {
+  alertInfo.show = true,
+  alertInfo.message = message;
+
+  setTimeout(() => {
+    alertInfo.show = false,
+    alertInfo.message = '';
+  }, 1000);
 };

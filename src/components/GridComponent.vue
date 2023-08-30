@@ -6,6 +6,7 @@ import {
   currentWord, 
   alertInfo
 } from '../composables/useState';
+import Alert from './AlertComponent.vue';
 
 const getBoxColorByPosition = (row: number, column: number) => {
   const currentWordArray = currentWord.value.split('');
@@ -22,10 +23,11 @@ const getBoxColorByPosition = (row: number, column: number) => {
 
 </script>
 <template>
-  <div v-if="alertInfo.show">
-    <h1>{{ alertInfo.message }}</h1>
-  </div>
   <container class="grid">
+    <Alert
+      v-if="alertInfo.show" 
+      :message="alertInfo.message"
+    />
     <div 
       class="row"
       v-for="(_, i) in gridWords"
@@ -47,6 +49,7 @@ const getBoxColorByPosition = (row: number, column: number) => {
   flex-direction: column;
   max-width: 280px;
   margin: 0 auto;
+  position: relative;
 
   .row {
     display: flex;
