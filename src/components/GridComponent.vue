@@ -1,8 +1,30 @@
 <script setup lang="ts">
 import InputComponent from './InputComponent.vue';
-import { gridWords } from '../composables/useState';
+import { 
+  gridWords, 
+  wordsCompleted, 
+  currentWord, 
+  alertInfo
+} from '../composables/useState';
+
+const getBoxColorByPosition = (row: number, column: number) => {
+  const currentWordArray = currentWord.value.split('');
+  const currentLetter = gridWords.value[row][column];
+  const containsLetter = currentWordArray.includes(currentLetter);
+
+  if(wordsCompleted.value[row]) {
+    return currentWordArray[column] === currentLetter
+      ? 'green' 
+      : ( containsLetter ? 'orange' : '');
+  }
+  return '';
+}
+
 </script>
 <template>
+  <div v-if="alertInfo.show">
+    <h1>{{ alertInfo.message }}</h1>
+  </div>
   <container class="grid">
     <div 
       class="row"
@@ -12,6 +34,7 @@ import { gridWords } from '../composables/useState';
       <InputComponent 
         v-for="(_, index) in ['','','','','']"
         :word="gridWords[i][index]"
+        :color="getBoxColorByPosition(i, index)"
         :key="`column-${index}`"
       />
     </div>

@@ -18,7 +18,7 @@
     font-size: 50px;
 
     .orange {
-      color: #F1C40F;
+      color: #E1B12C;
     }
 
     .green {
