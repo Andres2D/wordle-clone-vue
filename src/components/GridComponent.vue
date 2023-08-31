@@ -1,22 +1,29 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import InputComponent from './InputComponent.vue';
 import { 
   gridWords, 
   wordsCompleted, 
   currentWord, 
-  alertInfo
+  alertInfo,
+  newGame
 } from '../composables/useState';
 import Alert from './AlertComponent.vue';
 
+onMounted(() => {
+  newGame();
+})
+
 const getBoxColorByPosition = (row: number, column: number) => {
-  const currentWordArray = currentWord.value.split('');
+  const currentWordArray: string[] = currentWord.value.split('');
   const currentLetter = gridWords.value[row][column];
   const containsLetter = currentWordArray.includes(currentLetter);
+  const isRepeatedLetter = currentWordArray.filter(letter => letter === currentLetter).length > 1;
 
   if(wordsCompleted.value[row]) {
     return currentWordArray[column] === currentLetter
       ? 'green' 
-      : ( containsLetter ? 'orange' : '');
+      : ( containsLetter && isRepeatedLetter ? 'orange' : '');
   }
   return '';
 }
