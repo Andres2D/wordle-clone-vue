@@ -1,8 +1,9 @@
+import { getRandomNumber } from '@/helpers/random';
 import { ref, reactive } from 'vue';
 import { fullWordsList } from '../constants/five-letter-words';
 
 const defaultGridWordsValue = ['', '', '', '', '', ''];
-const defaultCompleteWordsValue = [false, false, false, false, false, false]
+const defaultCompleteWordsValue = [false, false, false, false, false, false];
 
 export const gridWords = ref(defaultGridWordsValue);
 export const currentWord = ref('');
@@ -11,19 +12,20 @@ export const alertInfo = reactive({
   show: false,
   message: ''
 });
+export const guessedWords = ref([]);
+export const existingWords = ref([]);
 
 export const newGame = () => {
-  const randomIndex = Math.floor(Math.random() * fullWordsList.length - 1);
+  const randomIndex = getRandomNumber(fullWordsList.length - 1);
   gridWords.value = defaultGridWordsValue;
   wordsCompleted.value = defaultCompleteWordsValue;
   currentWord.value = fullWordsList[randomIndex];
-  // console.log(fullWordsList[randomIndex]);
+  console.log(currentWord.value);
 };
 
 export const addWord = (word: string) => {
   const row = wordsCompleted.value.findIndex((completed: string) => !completed);
   if(word === 'ENTER') {
-    console.log(gridWords.value[row]);
     if(gridWords.value[row].length < 5) {
       displayTemporalAlert('No enough words.');
       return;
