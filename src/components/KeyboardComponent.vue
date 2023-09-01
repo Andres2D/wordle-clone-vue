@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import KeyComponent from './KeyComponent.vue'
-import { currentWord, gridWords } from '../composables/useState'
+import { existingWords, guessedWords } from '../composables/useState'
 
 const keyboard = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -9,25 +9,21 @@ const keyboard = [
 ]
 
 const getKeyColor = (key: string) => {
-  // let color = 'neutral'
+  let color = 'neutral';
+  const flatExistingLetters = existingWords.value.flatMap((letter: string) => letter)
+  const flatGuessedLetters = guessedWords.value.flatMap((letter: string) => letter)
+  
+  if(flatExistingLetters.includes(key)) {
+    color = 'orange';
+  }
+  
+  if(flatGuessedLetters.includes(key)) {
+    color = 'green';
+  }
 
-  // gridWords.value.forEach((word: string) => {
-  //   if (word.trim() !== '') {
-  //     const wordIndex = word.split('').findIndex(k => k === key);
-  //     const currentWordIndex = currentWord.value.split('').findIndex((k: string) => k === key);
-
-  //     if (currentWordIndex !== -1) {
-  //       if (wordIndex === currentWordIndex) {
-  //         color = 'green'
-  //       } else {
-  //         color = 'orange'
-  //       }
-  //     }
-  //   }
-  // })
-
-  // return color
+  return color;
 }
+
 </script>
 <template>
   <div class="keyboard">
