@@ -1,18 +1,19 @@
 import { getRandomNumber } from '@/helpers/random';
 import { ref, reactive } from 'vue';
+import type { Ref } from 'vue';
 import { fullWordsList } from '../constants/five-letter-words';
 
 const currentTry = ref(0);
-export const gridWords = ref([[],[],[],[],[],[]]);
-export const currentWord = ref('');
+export const gridWords: Ref<any[]> = ref([[],[],[],[],[],[]]);
+export const currentWord: Ref<string> = ref('');
 export const alertInfo = reactive({
   show: false,
   message: ''
 });
-export const guessedWords = ref([]);
-export const existingWords = ref([]);
-export const modalRef = ref(false);
-export const gameStatus = ref('playing');
+export const guessedWords: Ref<any[]> = ref([]);
+export const existingWords: Ref<any[]> = ref([]);
+export const modalRef: Ref<boolean> = ref(false);
+export const gameStatus: Ref<string> = ref('playing');
 
 export const newGame = () => {
   const randomIndex = getRandomNumber(fullWordsList.length - 1);

@@ -24,7 +24,7 @@ defineProps({
       'orange-key': keyColor === 'orange',
       'green-key': keyColor === 'green',
     }" 
-    @click="addWord(keyLetter)">
+    @click="addWord(keyLetter || '')">
       {{ keyLetter }}
   </div>
 </template>
