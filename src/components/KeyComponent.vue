@@ -3,19 +3,27 @@ import { addWord } from '../composables/useState';
 defineProps({
   keyLetter: {
     type: String
+  },
+  keyColor: {
+    type: String
   }
 })
 </script>
 <template>
   <div 
     class="key special-key" 
-    v-if="keyLetter === 'ENTER' || keyLetter === 'DELETE'"
+    v-if="keyLetter === 'ENTER-KEY' || keyLetter === 'DELETE-KEY'"
     @click="addWord(keyLetter)">
-    {{ keyLetter }}
+    {{ keyLetter.replace('-KEY', '') }}
   </div>
   <div 
     v-else 
-    class="key" 
+    class="key"
+    :class="{ 
+      'neutral-key': keyColor === 'neutral',
+      'orange-key': keyColor === 'orange',
+      'green-key': keyColor === 'green',
+    }" 
     @click="addWord(keyLetter)">
       {{ keyLetter }}
   </div>
@@ -26,11 +34,22 @@ defineProps({
   border: 2px solid #718093;
   padding: 8px;
   border-radius: 8px;
-  background-color: #718093;
   margin: 2px;
   text-align: center;
   width: 12px;
   cursor: pointer;
+}
+
+.neutral-key {
+  background-color: #718093;
+}
+
+.orange-key {
+  background-color: #E1B12C;
+}
+
+.green-key {
+  background-color: #44BD32;
 }
 
 .special-key {

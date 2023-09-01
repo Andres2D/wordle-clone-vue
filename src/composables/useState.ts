@@ -2,12 +2,9 @@ import { getRandomNumber } from '@/helpers/random';
 import { ref, reactive } from 'vue';
 import { fullWordsList } from '../constants/five-letter-words';
 
-const defaultGridWordsValue = ['', '', '', '', '', ''];
-const defaultCompleteWordsValue = [false, false, false, false, false, false];
-
-export const gridWords = ref(defaultGridWordsValue);
+const currentTry = ref(0);
+export const gridWords = ref([[],[],[],[],[],[]]);
 export const currentWord = ref('');
-export const wordsCompleted = ref(defaultCompleteWordsValue);
 export const alertInfo = reactive({
   show: false,
   message: ''
@@ -17,38 +14,37 @@ export const existingWords = ref([]);
 
 export const newGame = () => {
   const randomIndex = getRandomNumber(fullWordsList.length - 1);
-  gridWords.value = defaultGridWordsValue;
-  wordsCompleted.value = defaultCompleteWordsValue;
+  currentTry.value = 0;
   currentWord.value = fullWordsList[randomIndex];
   console.log(currentWord.value);
 };
 
 export const addWord = (word: string) => {
-  const row = wordsCompleted.value.findIndex((completed: string) => !completed);
-  if(word === 'ENTER') {
-    if(gridWords.value[row].length < 5) {
+  if(word === 'ENTER-KEY') {
+    if(gridWords.value[currentTry.value].length < 5) {
       displayTemporalAlert('No enough words.');
       return;
     }
 
-    if(!fullWordsList.includes(gridWords.value[row])) {
+    if(!fullWordsList.includes(gridWords.value[currentTry.value].join(''))) {
       displayTemporalAlert('No in words list.')
       return;
     }
-    
-    wordsCompleted.value[row] = true;
+    defineKeyCategory(currentTry.value);
+    currentTry.value += 1;
     return;
   }
   
-  if(word === 'DELETE') {
-    const deleteWord = gridWords.value[row].length > 0 
-      ? gridWords.value[row].slice(0, gridWords.value[row].length - 1)
-      : gridWords.value[row]; 
-    gridWords.value[row] = deleteWord;
-  } else if(gridWords.value[row].length === 5) {
+  if(word === 'DELETE-KEY') {
+    const deleteWord = gridWords.value[currentTry.value].length > 0 
+      ? gridWords.value[currentTry.value].slice(0, gridWords.value[currentTry.value].length - 1)
+      : gridWords.value[currentTry.value]; 
+    gridWords.value[currentTry.value] = deleteWord;
+  } else if(gridWords.value[currentTry.value].length === 5) {
     return;
   } else {
-    gridWords.value[row] += word; 
+    const nextValIndex = gridWords.value[currentTry.value].length;
+    gridWords.value[currentTry.value][nextValIndex] = word;
   }
 };
 
@@ -61,3 +57,22 @@ const displayTemporalAlert = (message: string) => {
     alertInfo.message = '';
   }, 1000);
 };
+
+const defineKeyCategory = (row: number) => {
+  const addedWord = gridWords.value[row];
+  const correctWord = currentWord.value.split('');
+  
+  const filterCorrectWords = addedWord.filter((w: string, index: number) => w === correctWord[index]);
+  const includedWords: string[] = [];
+  addedWord.forEach((w: string, index: number) => {
+    if(correctWord.includes(w) && correctWord[index] !== w) {
+      includedWords.push(w);
+    }
+  });
+  
+  guessedWords.value[currentTry.value] = [...filterCorrectWords];
+  existingWords.value[currentTry.value] = [...includedWords];
+  
+  console.log(guessedWords.value);
+  console.log(existingWords.value);
+}

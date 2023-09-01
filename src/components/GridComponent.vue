@@ -3,10 +3,10 @@ import { onMounted } from 'vue';
 import InputComponent from './InputComponent.vue';
 import { 
   gridWords, 
-  wordsCompleted, 
-  currentWord, 
   alertInfo,
-  newGame
+  newGame,
+  guessedWords,
+  existingWords
 } from '../composables/useState';
 import Alert from './AlertComponent.vue';
 
@@ -15,17 +15,21 @@ onMounted(() => {
 })
 
 const getBoxColorByPosition = (row: number, column: number) => {
-  const currentWordArray: string[] = currentWord.value.split('');
-  const currentLetter = gridWords.value[row][column];
-  const containsLetter = currentWordArray.includes(currentLetter);
-  const isRepeatedLetter = currentWordArray.filter(letter => letter === currentLetter).length > 1;
+  let color = '';
+  if(guessedWords.value[row] || existingWords.value[row]) {
+    if(guessedWords.value[row].includes(gridWords.value[row][column])) {
+      color = 'green';
+    }
 
-  if(wordsCompleted.value[row]) {
-    return currentWordArray[column] === currentLetter
-      ? 'green' 
-      : ( containsLetter && isRepeatedLetter ? 'orange' : '');
+    if(existingWords.value[row].includes(gridWords.value[row][column])) {
+      color = 'orange';
+    }
   }
-  return '';
+  return color;
+}
+
+const getWord = (x: number, y: number): string => {
+  return gridWords.value[x][y] ?? '';
 }
 
 </script>
@@ -37,15 +41,15 @@ const getBoxColorByPosition = (row: number, column: number) => {
     />
     <div 
       class="row"
-      v-for="(_, i) in gridWords"
+      v-for="(_, i) in ['','','','','','']"
       :key="`row-${i}`"
     >
-      <InputComponent 
-        v-for="(_, index) in ['','','','','']"
-        :word="gridWords[i][index]"
-        :color="getBoxColorByPosition(i, index)"
-        :key="`column-${index}`"
-      />
+    <InputComponent 
+      v-for="(_, index) in ['','','','','']"
+      :word="getWord(i, index)"
+      :color="getBoxColorByPosition(i, index)"
+      :key="`column-${index}`"
+    />
     </div>
   </container>
 </template>  
