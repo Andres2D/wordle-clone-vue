@@ -11,12 +11,22 @@ export const alertInfo = reactive({
 });
 export const guessedWords = ref([]);
 export const existingWords = ref([]);
+export const modalRef = ref(false);
+export const gameStatus = ref('playing');
 
 export const newGame = () => {
   const randomIndex = getRandomNumber(fullWordsList.length - 1);
   currentTry.value = 0;
   currentWord.value = fullWordsList[randomIndex];
-  console.log(currentWord.value);
+  gridWords.value = [[],[],[],[],[],[]];
+  guessedWords.value = [];
+  existingWords.value = [];
+  gameStatus.value = 'playing';
+  toggleModal(false);
+};
+
+export const toggleModal = (newValue: boolean) => {
+  modalRef.value = newValue;
 };
 
 export const addWord = (word: string) => {
@@ -31,6 +41,14 @@ export const addWord = (word: string) => {
       return;
     }
     defineKeyCategory(currentTry.value);
+
+    if(gridWords.value[currentTry.value].join('') === currentWord.value) {
+      showModalSummary('win');
+    }
+    
+    if(currentTry.value === 5 && gridWords.value[currentTry.value].length === 5) {
+      showModalSummary('lose');
+    }
     currentTry.value += 1;
     return;
   }
@@ -46,6 +64,11 @@ export const addWord = (word: string) => {
     const nextValIndex = gridWords.value[currentTry.value].length;
     gridWords.value[currentTry.value][nextValIndex] = word;
   }
+};
+
+const showModalSummary = (status: string) => {
+  toggleModal(true);
+  gameStatus.value = status;
 };
 
 const displayTemporalAlert = (message: string) => {
@@ -72,7 +95,4 @@ const defineKeyCategory = (row: number) => {
   
   guessedWords.value[currentTry.value] = [...filterCorrectWords];
   existingWords.value[currentTry.value] = [...includedWords];
-  
-  console.log(guessedWords.value);
-  console.log(existingWords.value);
 }
