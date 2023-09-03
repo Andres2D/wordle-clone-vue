@@ -15,7 +15,12 @@ import { modalRef, toggleModal } from './composables/useState';
     <button 
       class="menu-button"
       @click="toggleModal(true)"
-    >Menu</button>
+    >
+    Menu
+  </button>
+  <footer class="footer">
+    <a href="https://github.com/Andres2D/wordle-clone-vue">By Andres2D 🚀</a>
+  </footer>
   </section>
 </template>
 
@@ -34,6 +39,11 @@ import { modalRef, toggleModal } from './composables/useState';
     border: 2px solid #718093;
     transition: all 300ms;
     width: 100%;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 10px;
   }
 }
 </style>
