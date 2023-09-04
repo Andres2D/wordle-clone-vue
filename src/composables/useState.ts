@@ -3,7 +3,7 @@ import { ref, reactive } from 'vue';
 import type { Ref } from 'vue';
 import { fullWordsList } from '../constants/five-letter-words';
 
-const currentTry = ref(0);
+export const currentTry = ref(0);
 export const gridWords: Ref<any[]> = ref([[],[],[],[],[],[]]);
 export const currentWord: Ref<string> = ref('');
 export const alertInfo = reactive({
@@ -31,6 +31,11 @@ export const toggleModal = (newValue: boolean) => {
 };
 
 export const addWord = (word: string) => {
+
+  if(gameStatus.value !== 'playing') {
+    return;
+  }
+
   if(word === 'ENTER-KEY') {
     if(gridWords.value[currentTry.value].length < 5) {
       displayTemporalAlert('No enough words.');

@@ -6,7 +6,8 @@ import {
   alertInfo,
   newGame,
   guessedWords,
-  existingWords
+  existingWords,
+  currentTry
 } from '../composables/useState';
 import Alert from './AlertComponent.vue';
 
@@ -32,6 +33,10 @@ const getWord = (x: number, y: number): string => {
   return gridWords.value[x][y] ?? '';
 }
 
+const completedAnimation = (row: number) => {
+ return row < (currentTry.value - 1) || row === (currentTry.value - 1) ? true : false;
+};
+
 </script>
 <template>
   <container class="grid">
@@ -46,6 +51,7 @@ const getWord = (x: number, y: number): string => {
     >
     <InputComponent 
       v-for="(_, index) in ['','','','','']"
+      :class="{ 'completed': completedAnimation(i)}"
       :word="getWord(i, index)"
       :color="getBoxColorByPosition(i, index)"
       :key="`column-${index}`"
@@ -66,6 +72,11 @@ const getWord = (x: number, y: number): string => {
     display: flex;
     justify-content: space-between;
     margin-bottom: 8px;
+
+    .completed {
+      transition: all 300ms;
+      border-radius: 50%;
+    }
   }
 }
 </style>
