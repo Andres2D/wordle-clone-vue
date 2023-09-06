@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { addWord } from '../composables/useState';
+import { addWord } from '../composables/wordState';
 defineProps({
   keyLetter: {
     type: String
@@ -63,3 +63,4 @@ defineProps({
   border: 2px solid #718093;
 }
 </style>
+../composables/wordState

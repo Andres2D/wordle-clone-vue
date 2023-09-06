@@ -3,7 +3,8 @@ import Header from './components/HeaderComponent.vue';
 import Grid from './components/GridComponent.vue';
 import Keyboard from './components/KeyboardComponent.vue';
 import ModalComponent from './components/ModalComponent.vue';
-import { modalRef, toggleModal } from './composables/useState';
+import { modalRef, toggleModal } from './composables/modalState';
+
 </script>
 
 <template>
@@ -47,3 +48,4 @@ import { modalRef, toggleModal } from './composables/useState';
   }
 }
 </style>
+./composables/wordState

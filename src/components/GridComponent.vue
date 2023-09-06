@@ -8,7 +8,7 @@ import {
   guessedWords,
   existingWords,
   currentTry
-} from '../composables/useState';
+} from '../composables/wordState';
 import Alert from './AlertComponent.vue';
 
 onMounted(() => {
@@ -80,3 +80,4 @@ const completedAnimation = (row: number) => {
   }
 }
 </style>
+../composables/wordState

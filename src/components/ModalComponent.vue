@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { toggleModal } from '@/composables/modalState';
 import { 
-  toggleModal, 
   newGame, 
   gameStatus,
   currentWord 
-} from '../composables/useState';
+} from '../composables/wordState';
 
 const showSummary = () => {
   return gameStatus.value !== 'playing';
@@ -102,3 +102,4 @@ const getCurrentWord = () => {
   }
 }
 </style>
+../composables/wordState

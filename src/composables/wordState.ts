@@ -2,6 +2,7 @@ import { getRandomNumber } from '@/helpers/random';
 import { ref, reactive } from 'vue';
 import type { Ref } from 'vue';
 import { fullWordsList } from '../constants/five-letter-words';
+import { toggleModal } from './modalState';
 
 export const currentTry = ref(0);
 export const gridWords: Ref<any[]> = ref([[],[],[],[],[],[]]);
@@ -12,7 +13,7 @@ export const alertInfo = reactive({
 });
 export const guessedWords: Ref<any[]> = ref([]);
 export const existingWords: Ref<any[]> = ref([]);
-export const modalRef: Ref<boolean> = ref(false);
+
 export const gameStatus: Ref<string> = ref('playing');
 
 export const newGame = () => {
@@ -24,10 +25,6 @@ export const newGame = () => {
   existingWords.value = [];
   gameStatus.value = 'playing';
   toggleModal(false);
-};
-
-export const toggleModal = (newValue: boolean) => {
-  modalRef.value = newValue;
 };
 
 export const addWord = (word: string) => {

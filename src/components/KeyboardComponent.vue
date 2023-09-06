@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import KeyComponent from './KeyComponent.vue'
-import { existingWords, guessedWords } from '../composables/useState'
+import { existingWords, guessedWords } from '../composables/wordState'
 
 const keyboard = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -65,3 +65,4 @@ const getKeyColor = (key: string) => {
   }
 }
 </style>
+../composables/wordState
