@@ -54,16 +54,14 @@ export const addWord = (word: string) => {
   }
   
   if(word === 'DELETE-KEY') {
-    const deleteWord = gridWords.value[currentTry.value].length > 0 
-      ? gridWords.value[currentTry.value].slice(0, gridWords.value[currentTry.value].length - 1)
-      : gridWords.value[currentTry.value]; 
-    gridWords.value[currentTry.value] = deleteWord;
-  } else if(gridWords.value[currentTry.value].length === 5) {
-    return;
+    gridWords.value[currentTry.value].pop();
   } else {
-    const nextValIndex = gridWords.value[currentTry.value].length;
-    gridWords.value[currentTry.value][nextValIndex] = word;
+    if(gridWords.value[currentTry.value].length === 5) {
+      return;
+    }
+    gridWords.value[currentTry.value].push(word);
   }
+
 };
 
 const showModalSummary = (status: string) => {
