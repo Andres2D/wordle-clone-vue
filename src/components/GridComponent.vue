@@ -2,14 +2,14 @@
 import { onMounted } from 'vue';
 import InputComponent from './InputComponent.vue';
 import { 
-  gridWords, 
-  alertInfo,
+  gridWords,
   newGame,
   guessedWords,
   existingWords,
   currentTry
 } from '../composables/wordState';
 import Alert from './AlertComponent.vue';
+import { alertInfo } from '@/composables/alertState';
 
 onMounted(() => {
   newGame();

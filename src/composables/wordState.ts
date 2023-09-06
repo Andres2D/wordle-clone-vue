@@ -1,16 +1,13 @@
 import { getRandomNumber } from '@/helpers/random';
-import { ref, reactive } from 'vue';
+import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { fullWordsList } from '../constants/five-letter-words';
 import { toggleModal } from './modalState';
+import { displayTemporalAlert } from './alertState';
 
 export const currentTry = ref(0);
 export const gridWords: Ref<any[]> = ref([[],[],[],[],[],[]]);
 export const currentWord: Ref<string> = ref('');
-export const alertInfo = reactive({
-  show: false,
-  message: ''
-});
 export const guessedWords: Ref<any[]> = ref([]);
 export const existingWords: Ref<any[]> = ref([]);
 
@@ -43,7 +40,7 @@ export const addWord = (word: string) => {
       displayTemporalAlert('No in words list.')
       return;
     }
-    defineKeyCategory(currentTry.value);
+    defineKeyCategory();
 
     if(gridWords.value[currentTry.value].join('') === currentWord.value) {
       showModalSummary('win');
@@ -74,17 +71,8 @@ const showModalSummary = (status: string) => {
   gameStatus.value = status;
 };
 
-const displayTemporalAlert = (message: string) => {
-  alertInfo.show = true,
-  alertInfo.message = message;
-
-  setTimeout(() => {
-    alertInfo.show = false,
-    alertInfo.message = '';
-  }, 1000);
-};
-
-const defineKeyCategory = (row: number) => {
+const defineKeyCategory = () => {
+  const row = currentTry.value;
   const addedWord = gridWords.value[row];
   const correctWord = currentWord.value.split('');
   
@@ -99,3 +87,4 @@ const defineKeyCategory = (row: number) => {
   guessedWords.value[currentTry.value] = [...filterCorrectWords];
   existingWords.value[currentTry.value] = [...includedWords];
 }
+ 
