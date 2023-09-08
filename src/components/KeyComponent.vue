@@ -14,13 +14,13 @@ defineProps({
   <div 
     class="key special-key" 
     v-if="keyLetter === 'DELETE-KEY'"
-    @click="removeLetter(keyLetter)">
+    @click="removeLetter()">
     {{ keyLetter.replace('-KEY', '') }}
   </div>
   <div 
     class="key special-key" 
     v-else-if="keyLetter === 'ENTER-KEY'"
-    @click="evaluateWord(keyLetter)">
+    @click="evaluateWord()">
     {{ keyLetter.replace('-KEY', '') }}
   </div>
   <div 
