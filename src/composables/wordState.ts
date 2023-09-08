@@ -24,45 +24,53 @@ export const newGame = () => {
   toggleModal(false);
 };
 
-export const addWord = (word: string) => {
+export const addLetter = (letter: string) => {
 
+  if(gameStatus.value !== 'playing' || gridWords.value[currentTry.value].length === 5) {
+    return;
+  }
+  
+  gridWords.value[currentTry.value].push(letter);
+};
+
+export const removeLetter = () => {
+  if(gameStatus.value !== 'playing') {
+    return;
+  }
+  gridWords.value[currentTry.value].pop();
+};
+
+export const evaluateWord = () => {
   if(gameStatus.value !== 'playing') {
     return;
   }
 
-  if(word === 'ENTER-KEY') {
-    if(gridWords.value[currentTry.value].length < 5) {
-      displayTemporalAlert('No enough words.');
-      return;
-    }
+  if(gridWords.value[currentTry.value].length < 5) {
+    displayTemporalAlert('No enough words.');
+    return;
+  }
 
-    if(!fullWordsList.includes(gridWords.value[currentTry.value].join(''))) {
-      displayTemporalAlert('No in words list.')
-      return;
-    }
-    defineKeyCategory();
-
-    if(gridWords.value[currentTry.value].join('') === currentWord.value) {
-      showModalSummary('win');
-    }
-    
-    if(currentTry.value === 5 && gridWords.value[currentTry.value].length === 5) {
-      showModalSummary('lose');
-    }
-    currentTry.value += 1;
+  if(!fullWordsList.includes(gridWords.value[currentTry.value].join(''))) {
+    displayTemporalAlert('No in words list.')
     return;
   }
   
-  if(word === 'DELETE-KEY') {
-    gridWords.value[currentTry.value].pop();
-  } else {
-    if(gridWords.value[currentTry.value].length === 5) {
-      return;
-    }
-    gridWords.value[currentTry.value].push(word);
-  }
-
+  defineKeyCategory();
+  validateEndGame();
+  
+  currentTry.value += 1;
+  return;
 };
+
+const validateEndGame = () => {
+  if(gridWords.value[currentTry.value].join('') === currentWord.value) {
+    showModalSummary('win');
+  }
+  
+  if(currentTry.value === 5 && gridWords.value[currentTry.value].length === 5) {
+    showModalSummary('lose');
+  }
+}
 
 const showModalSummary = (status: string) => {
   toggleModal(true);

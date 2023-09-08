@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { addWord } from '../composables/wordState';
+import { removeLetter, evaluateWord, addLetter } from '@/composables/wordState';
+
 defineProps({
   keyLetter: {
     type: String
@@ -12,8 +13,14 @@ defineProps({
 <template>
   <div 
     class="key special-key" 
-    v-if="keyLetter === 'ENTER-KEY' || keyLetter === 'DELETE-KEY'"
-    @click="addWord(keyLetter)">
+    v-if="keyLetter === 'DELETE-KEY'"
+    @click="removeLetter(keyLetter)">
+    {{ keyLetter.replace('-KEY', '') }}
+  </div>
+  <div 
+    class="key special-key" 
+    v-else-if="keyLetter === 'ENTER-KEY'"
+    @click="evaluateWord(keyLetter)">
     {{ keyLetter.replace('-KEY', '') }}
   </div>
   <div 
@@ -24,7 +31,7 @@ defineProps({
       'orange-key': keyColor === 'orange',
       'green-key': keyColor === 'green',
     }" 
-    @click="addWord(keyLetter || '')">
+    @click="addLetter(keyLetter || '')">
       {{ keyLetter }}
   </div>
 </template>
@@ -63,4 +70,3 @@ defineProps({
   border: 2px solid #718093;
 }
 </style>
-../composables/wordState
