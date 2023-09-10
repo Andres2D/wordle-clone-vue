@@ -21,6 +21,7 @@ export const newGame = () => {
   gridWords.value = [[],[],[],[],[],[]];
   guessedWords.value = [];
   existingWords.value = [];
+  wrongLetters.value = [];
   gameStatus.value = 'playing';
   toggleModal(false);
 };
