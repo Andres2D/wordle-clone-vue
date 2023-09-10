@@ -30,6 +30,7 @@ defineProps({
       'neutral-key': keyColor === 'neutral',
       'orange-key': keyColor === 'orange',
       'green-key': keyColor === 'green',
+      'black-key': keyColor === 'black'
     }" 
     @click="addLetter(keyLetter || '')">
       {{ keyLetter }}
@@ -59,6 +60,12 @@ defineProps({
 .green-key {
   background-color: #44BD32;
   border: 2px solid #44BD32;
+}
+
+.black-key {
+  background-color: #333;
+  border: 2px solid #333;
+  
 }
 
 .special-key {

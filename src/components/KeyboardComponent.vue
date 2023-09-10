@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import KeyComponent from './KeyComponent.vue'
-import { existingWords, guessedWords } from '../composables/wordState'
+import { existingWords, guessedWords, wrongLetters } from '../composables/wordState'
 
 const keyboard = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -10,8 +10,9 @@ const keyboard = [
 
 const getKeyColor = (key: string) => {
   let color = 'neutral';
-  const flatExistingLetters = existingWords.value.flatMap((letter: string) => letter)
-  const flatGuessedLetters = guessedWords.value.flatMap((letter: string) => letter)
+  const flatExistingLetters = existingWords.value.flatMap((letter: string) => letter);
+  const flatGuessedLetters = guessedWords.value.flatMap((letter: string) => letter);
+  const flatWrongLetters = wrongLetters.value.flatMap((letter: string) => letter);
   
   if(flatExistingLetters.includes(key)) {
     color = 'orange';
@@ -19,6 +20,10 @@ const getKeyColor = (key: string) => {
   
   if(flatGuessedLetters.includes(key)) {
     color = 'green';
+  }
+  
+  if(flatWrongLetters.includes(key)) {
+    color = 'black';
   }
 
   return color;

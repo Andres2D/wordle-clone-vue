@@ -10,6 +10,7 @@ export const gridWords: Ref<any[]> = ref([[],[],[],[],[],[]]);
 export const currentWord: Ref<string> = ref('');
 export const guessedWords: Ref<any[]> = ref([]);
 export const existingWords: Ref<any[]> = ref([]);
+export const wrongLetters: Ref<any[]> = ref([]);
 
 export const gameStatus: Ref<string> = ref('playing');
 
@@ -81,16 +82,22 @@ const defineKeyCategory = () => {
   const row = currentTry.value;
   const addedWord = gridWords.value[row];
   const correctWord = currentWord.value.split('');
+  const wrongLettersList: string[] = []; 
   
   const filterCorrectWords = addedWord.filter((w: string, index: number) => w === correctWord[index]);
   const includedWords: string[] = [];
   addedWord.forEach((w: string, index: number) => {
-    if(correctWord.includes(w) && correctWord[index] !== w) {
-      includedWords.push(w);
+    if(correctWord.includes(w)) {
+      if(correctWord[index] !== w) {
+        includedWords.push(w);
+      }
+    }else {
+      wrongLettersList.push(w);
     }
   });
   
   guessedWords.value[currentTry.value] = [...filterCorrectWords];
   existingWords.value[currentTry.value] = [...includedWords];
+  wrongLetters.value[currentTry.value] = [...wrongLettersList];
 }
  
