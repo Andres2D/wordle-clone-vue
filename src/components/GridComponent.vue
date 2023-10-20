@@ -6,7 +6,8 @@ import {
   newGame,
   guessedWords,
   existingWords,
-  currentTry
+  currentTry,
+  currentWord
 } from '../composables/wordState';
 import Alert from './AlertComponent.vue';
 import { alertInfo } from '@/composables/alertState';
@@ -24,6 +25,14 @@ const getBoxColorByPosition = (row: number, column: number) => {
 
     if(existingWords.value[row].includes(gridWords.value[row][column])) {
       color = 'orange';
+    }
+
+    if(
+      guessedWords.value[row].includes(gridWords.value[row][column]) &&
+      existingWords.value[row].includes(gridWords.value[row][column])
+    ) {
+      const isCorrectIndex = currentWord.value.split('')[column] === guessedWords.value[row][column];
+      color = isCorrectIndex ? 'green' : 'orange';
     }
   }
   return color;
@@ -80,4 +89,3 @@ const completedAnimation = (row: number) => {
   }
 }
 </style>
-../composables/wordState
