@@ -9,6 +9,7 @@ import {
   currentTry,
   currentWord
 } from '../composables/wordState';
+import { indexOfAll } from '../helpers/basic';
 import Alert from './AlertComponent.vue';
 import { alertInfo } from '@/composables/alertState';
 
@@ -18,21 +19,30 @@ onMounted(() => {
 
 const getBoxColorByPosition = (row: number, column: number) => {
   let color = '';
-  if(guessedWords.value[row] || existingWords.value[row]) {
-    if(guessedWords.value[row].includes(gridWords.value[row][column])) {
-      color = 'green';
+  const correctWordArray: string[] = currentWord.value.split('');
+  const currentRowWord = gridWords.value[row];
+  if(guessedWords.value[row] || existingWords.value[row]) { 
+    if(correctWordArray[column] === currentRowWord[column]) {
+      return 'green';
     }
+    
+    if(correctWordArray.includes(currentRowWord[column])) {
+      const toRemoveArray: number[] = [];
+      const inCorrectWord = indexOfAll(correctWordArray, currentRowWord[column]);
+      const inGuessedWord = indexOfAll(currentRowWord, currentRowWord[column]);
+      const guessedWordRealArray = inGuessedWord.slice(0, inCorrectWord.length);
 
-    if(existingWords.value[row].includes(gridWords.value[row][column])) {
-      color = 'orange';
-    }
+      guessedWords.value[row].forEach((element: string) => {
+        toRemoveArray.push(correctWordArray.indexOf(element));
+      });
 
-    if(
-      guessedWords.value[row].includes(gridWords.value[row][column]) &&
-      existingWords.value[row].includes(gridWords.value[row][column])
-    ) {
-      const isCorrectIndex = currentWord.value.split('')[column] === guessedWords.value[row][column];
-      color = isCorrectIndex ? 'green' : 'orange';
+      const newCorrectArray = correctWordArray.filter((_, index) => {
+        return toRemoveArray.indexOf(index) == -1;
+      });
+
+      if(newCorrectArray.includes(currentRowWord[column])) {
+        return guessedWordRealArray[0] === column ? 'orange' : '';
+      }
     }
   }
   return color;
