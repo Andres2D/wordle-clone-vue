@@ -5,6 +5,7 @@ import { fullWordsList } from '../constants/five-letter-words';
 import { toggleModal } from './modalState';
 import { displayTemporalAlert } from './alertState';
 
+const urlDictionaryApi = 'https://api.dictionaryapi.dev/api/v2/entries/en';
 export const currentTry = ref(0);
 export const gridWords: Ref<any[]> = ref([[],[],[],[],[],[]]);
 export const currentWord: Ref<string> = ref('');
@@ -42,7 +43,7 @@ export const removeLetter = () => {
   gridWords.value[currentTry.value].pop();
 };
 
-export const evaluateWord = () => {
+export const evaluateWord = async() => {
   if(gameStatus.value !== 'playing') {
     return;
   }
@@ -52,8 +53,10 @@ export const evaluateWord = () => {
     return;
   }
 
-  if(!fullWordsList.includes(gridWords.value[currentTry.value].join(''))) {
-    displayTemporalAlert('No in words list.')
+  const dictionaryResponse = await fetch(`${urlDictionaryApi}/${gridWords.value[currentTry.value].join('')}`);
+
+  if(!dictionaryResponse.ok) {
+    displayTemporalAlert('No in words list.');
     return;
   }
   
@@ -67,10 +70,12 @@ export const evaluateWord = () => {
 const validateEndGame = () => {
   if(gridWords.value[currentTry.value].join('') === currentWord.value) {
     showModalSummary('win');
+    return;
   }
   
   if(currentTry.value === 5 && gridWords.value[currentTry.value].length === 5) {
     showModalSummary('lose');
+    return;
   }
 }
 
